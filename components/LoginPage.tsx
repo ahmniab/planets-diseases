@@ -14,17 +14,40 @@ import {
   CircularProgress
 } from '@mui/material';
 import { Login as LoginIcon } from '@mui/icons-material';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { useAuth } from '@/contexts/AuthContext';
-import axios from 'axios';
 import { SetSession } from '@/lib/auth/client';
 
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email('البريد الإلكتروني غير صحيح')
+    .required('البريد الإلكتروني مطلوب'),
+  password: yup
+    .string()
+    .required('كلمة المرور مطلوبة'),
+});
+
+type LoginFormData = yup.InferType<typeof loginSchema>;
+
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const { signIn, user } = useAuth();
   const router = useRouter();
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
   useEffect(() => {
     if (user) {
@@ -45,41 +68,21 @@ const LoginPage = () => {
     );
   }
 
-  const handleEmailLogin = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (!email || !password) {
-      setError('يرجى إدخال البريد الإلكتروني وكلمة المرور');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
+  const onSubmit = async (data: LoginFormData) => {
+    setLoginError(null);
     try {
-      const userCredential = await signIn(email, password);
-      userCredential.user.getIdToken()
-      .then(SetSession)
-      .then(() => {
-        router.push('/dashboard');
-      }).catch((error) => {
-        console.error('Error setting session cookie:', error);
-        setError('فشل في إعداد الجلسة. يرجى المحاولة مرة أخرى.');
-      });
-      
+      const userCredential = await signIn(data.email, data.password);
+      const token = await userCredential.user.getIdToken();
+      await SetSession(token);
+      router.push('/dashboard');
     } catch (error: any) {
-      setError(
-        error.code === 'auth/user-not-found' 
-          ? 'المستخدم غير موجود'
-          : error.code === 'auth/wrong-password'
-          ? 'كلمة المرور غير صحيحة'
-          : error.code === 'auth/invalid-email'
-          ? 'البريد الإلكتروني غير صحيح'
-          : 'حدث خطأ أثناء تسجيل الدخول'
-      );
-    } finally {
-      setLoading(false);
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        setLoginError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      } else if (error.code === 'auth/too-many-requests') {
+        setLoginError('تم تجاوز عدد المحاولات المسموح بها. يرجى المحاولة لاحقاً');
+      } else {
+        setLoginError('حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى');
+      }
     }
   };
 
@@ -97,35 +100,48 @@ const LoginPage = () => {
             </Typography>
           </Box>
 
-          {error && (
-            <Alert severity="error" sx={{ mb: 3, textAlign: 'right' }}>
-              {error}
-            </Alert>
-          )}
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mb: 3 }}>
 
-          <Box component="form" onSubmit={handleEmailLogin} sx={{ mb: 3 }}>
-            <TextField
-              dir='ltr'
-              fullWidth
-              label="البريد الإلكتروني"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              margin="normal"
-              required
-              sx={{ mb: 2 }}
-              />
+            {loginError && (
+              <Alert dir='ltr' severity="error" sx={{ mb: 2 }} onClose={() => setLoginError(null)}>
+                {loginError}
+              </Alert>
+            )}
 
-            <TextField
-              dir='ltr'
-              fullWidth
-              label="كلمة المرور"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              margin="normal"
-              required
-              sx={{ mb: 3 }}
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  dir='ltr'
+                  fullWidth
+                  label="البريد الإلكتروني"
+                  type="email"
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  margin="normal"
+                  sx={{ mb: 2 }}
+                />
+              )}
+            />
+
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  dir='ltr'
+                  fullWidth
+                  label="كلمة المرور"
+                  type="password"
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  margin="normal"
+                  sx={{ mb: 3 }}
+                />
+              )}
             />
 
             <Button
@@ -133,10 +149,10 @@ const LoginPage = () => {
               fullWidth
               variant="contained"
               size="large"
-              disabled={loading}
+              disabled={isSubmitting}
               sx={{ mb: 2, py: 1.5, textTransform: 'none', fontSize: '1.1rem' }}
             >
-              {loading ? <CircularProgress size={24} /> : 'تسجيل الدخول'}
+              {isSubmitting ? <CircularProgress size={24} /> : 'تسجيل الدخول'}
             </Button>
           </Box>
 
