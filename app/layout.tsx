@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@/theme';
 import QueryProvider from '@/contexts/QueryProvider';
 import Mainlayout from "@/components/shared/Mainlayout";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 // Import all CSS files at the top level to avoid @import issues
 import 'swiper/css';
@@ -26,7 +27,6 @@ export const metadata: Metadata = {
   description: "دليل أمراض النباتات - مرجع علمي شامل لأمراض النباتات وطرق علاجها والوقاية منها",
   keywords: "أمراض النباتات، دليل، زراعة، نباتات، علاج، وقاية، مرجع علمي",
   authors: [{ name: "فريق تشخيص أمراض النباتات" }],
-  themeColor: "#228B22",
   manifest: "/manifest.json",
   openGraph: {
     title: "دليل أمراض النباتات",
@@ -73,13 +73,15 @@ export default function RootLayout({
           </div>
         </noscript>
         <AppRouterCacheProvider>
-          <QueryProvider>
+          {/* <QueryProvider> */}
             <ThemeProvider>
-              <Mainlayout>
-                {children}
-              </Mainlayout>
+              <AuthProvider>
+                <Mainlayout>
+                  {children}
+                </Mainlayout>
+              </AuthProvider>
             </ThemeProvider>
-          </QueryProvider>
+          {/* </QueryProvider> */}
         </AppRouterCacheProvider>
       </body>
     </html>

@@ -1,13 +1,7 @@
-import { Box } from "@mui/material";
-import { FeaturesSection, HeroSection } from "@/components/Home";
+import { redirect } from 'next/navigation';
 
-const Home = () => {
-  return (
-    <Box>
-      <HeroSection />
-      <FeaturesSection />
-    </Box>
-  );
+const RootPage: React.FC = () => {
+    return redirect('/content');
 };
 
-export default Home;
+export default RootPage;

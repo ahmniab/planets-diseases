@@ -9,12 +9,13 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from 'firebase/auth';
-import { auth } from '@/libs/firebase/config';
+import { auth } from '@/lib/firebase/config';
+import { UserCredential } from 'firebase/auth';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<UserCredential>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   isAuthenticated: boolean;
@@ -47,9 +48,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string): Promise<void> => {
+  const signIn = async (email: string, password: string): Promise<UserCredential> => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      return await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       console.error('Error signing in:', error);
       throw error;
