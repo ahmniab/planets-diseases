@@ -1,6 +1,6 @@
 import { db } from "./firebase";
-import { plantData, plant } from "@/models/plant";
-import { disease, diseaseSummary, diseaseDoc, diseaseDocData } from "@/models/disease";
+import { plantData, plant } from "@/types/plant";
+import { disease, diseaseSummary, diseaseDoc, diseaseDocData } from "@/types/disease";
 
 export const addPlant = async (plantData: plantData): Promise<plant> => {
     const newPlantdoc = await db.collection('plants').add(plantData);
