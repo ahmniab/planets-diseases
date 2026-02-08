@@ -7,9 +7,6 @@ import Mainlayout from "@/components/shared/Mainlayout";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 // Import all CSS files at the top level to avoid @import issues
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import 'react-medium-image-zoom/dist/styles.css';
 
 const geistSans = Geist({
@@ -73,7 +70,7 @@ export default function RootLayout({
           </div>
         </noscript>
         <AppRouterCacheProvider>
-          {/* <QueryProvider> */}
+          <QueryProvider>
             <ThemeProvider>
               <AuthProvider>
                 <Mainlayout>
@@ -81,7 +78,7 @@ export default function RootLayout({
                 </Mainlayout>
               </AuthProvider>
             </ThemeProvider>
-          {/* </QueryProvider> */}
+          </QueryProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
