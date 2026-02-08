@@ -1,13 +1,16 @@
 
 import Dashboard from '@/components/dashboard';
+import { diseaseCount, plantCount } from '@/lib/firebaseAdmin/database';
 
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  const plantsCount = await plantCount();
+  const diseasesCount = await diseaseCount();
 
   return (
     <Dashboard 
-      plantsCount={3}
-      diseasesCount={0}
+      plantsCount={plantsCount}
+      diseasesCount={diseasesCount}
     />
   );
 };
