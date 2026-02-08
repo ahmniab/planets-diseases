@@ -78,7 +78,7 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
     }, [saveError]);
 
     const handleSave = () => {
-        if (!disease) return;
+        if (!disease || !content) return;
         save(content);
     };
 
