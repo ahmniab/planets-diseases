@@ -95,7 +95,7 @@ export default function DiseaseFormDialog({
                 }
             }}
         >
-            <DialogTitle sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}>
+            <DialogTitle>
                 {disease ? 'تعديل المرض' : 'إضافة مرض جديد'}
             </DialogTitle>
             <form onSubmit={handleSubmit(onSubmitForm)}>
@@ -111,21 +111,15 @@ export default function DiseaseFormDialog({
                                     fullWidth
                                     error={!!errors.name}
                                     helperText={errors.name?.message}
-                                    InputProps={{
-                                        sx: { direction: 'rtl' }
-                                    }}
-                                    InputLabelProps={{
-                                        sx: { 
-                                            right: 28,
-                                            left: 'auto',
-                                            transformOrigin: 'top right',
-                                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
-                                        }
-                                    }}
-                                    FormHelperTextProps={{
-                                        sx: {
-                                            textAlign: 'right',
-                                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
+                                    slotProps={{
+                                        input: {sx: { direction: 'rtl' }},
+                                        formHelperText:{sx: { textAlign: 'right',}},
+                                        inputLabel:{
+                                            sx: { 
+                                                right: 28,
+                                                left: 'auto',
+                                                transformOrigin: 'top right',
+                                            }
                                         }
                                     }}
                                 />
@@ -141,21 +135,15 @@ export default function DiseaseFormDialog({
                                     fullWidth
                                     error={!!errors.title}
                                     helperText={errors.title?.message}
-                                    InputProps={{
-                                        sx: { direction: 'rtl' }
-                                    }}
-                                    InputLabelProps={{
-                                        sx: { 
-                                            right: 28,
-                                            left: 'auto',
-                                            transformOrigin: 'top right',
-                                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
-                                        }
-                                    }}
-                                    FormHelperTextProps={{
-                                        sx: {
-                                            textAlign: 'right',
-                                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
+                                    slotProps={{
+                                        input: {sx: { direction: 'rtl' }},
+                                        formHelperText:{sx: { textAlign: 'right',}},
+                                        inputLabel:{
+                                            sx: { 
+                                                right: 28,
+                                                left: 'auto',
+                                                transformOrigin: 'top right',
+                                            }
                                         }
                                     }}
                                 />
@@ -172,21 +160,16 @@ export default function DiseaseFormDialog({
                                     type="url"
                                     error={!!errors.mainImageUrl}
                                     helperText={errors.mainImageUrl?.message}
-                                    InputProps={{
-                                        sx: { direction: 'ltr' }
-                                    }}
-                                    InputLabelProps={{
-                                        sx: { 
-                                            right: 28,
-                                            left: 'auto',
-                                            transformOrigin: 'top right',
-                                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
-                                        }
-                                    }}
-                                    FormHelperTextProps={{
-                                        sx: {
-                                            textAlign: 'right',
-                                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
+                                    dir='ltr'
+                                    slotProps={{
+                                        input: {sx: { direction: 'rtl' }},
+                                        formHelperText:{sx: { textAlign: 'right',}},
+                                        inputLabel:{
+                                            sx: { 
+                                                right: 28,
+                                                left: 'auto',
+                                                transformOrigin: 'top right',
+                                            }
                                         }
                                     }}
                                 />
@@ -197,16 +180,13 @@ export default function DiseaseFormDialog({
                 <DialogActions sx={{ p: 2, gap: 1 }}>
                     <Button 
                         onClick={onClose} 
-                        disabled={isLoading}
-                        sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
-                    >
+                        disabled={isLoading}                    >
                         إلغاء
                     </Button>
                     <Button 
                         type="submit" 
                         variant="contained" 
                         disabled={isLoading}
-                        sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                     >
                         {isLoading ? <CircularProgress size={24} /> : disease ? 'حفظ' : 'إضافة'}
                     </Button>

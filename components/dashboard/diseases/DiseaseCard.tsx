@@ -68,7 +68,7 @@ export default function DiseaseCard({ disease, onEdit, onDelete }: DiseaseCardPr
     const theme = useTheme();
 
     const handleClick = () => {
-        router.push(`/diseases/${disease.id}`);
+        router.push(`/content/diseases/${disease.id}`);
     };
 
     const handleEdit = (e: React.MouseEvent) => {
@@ -118,7 +118,6 @@ export default function DiseaseCard({ disease, onEdit, onDelete }: DiseaseCardPr
                             mb: 1,
                             textAlign: 'right',
                             direction: 'rtl',
-                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                             lineHeight: 1.4,
                         }}
                     >
@@ -135,7 +134,6 @@ export default function DiseaseCard({ disease, onEdit, onDelete }: DiseaseCardPr
                             sx={{
                                 mt: 2,
                                 direction: 'rtl',
-                                fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                             }}
                         >
                             تعديل الوثيقة

@@ -84,7 +84,6 @@ const PlantCard = ({ plant, onEdit, onDelete }: PlantCardProps) => {
           sx={{
             mt: 2,
             direction: 'rtl',
-            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
           }}
         >
           &nbsp;

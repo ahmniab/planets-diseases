@@ -149,7 +149,6 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
                                 textDecoration: 'none',
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
-                                fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                             }}
                         >
                             لوحة التحكم
@@ -162,14 +161,12 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
                                 textDecoration: 'none',
                                 color: 'text.secondary',
                                 '&:hover': { color: 'primary.main' },
-                                fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                             }}
                         >
                             النباتات
                         </Link>
                         <Typography
                             color="text.primary"
-                            sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                         >
                             {plantLoading ? <Skeleton width={100} /> : plant?.name || 'الأمراض'}
                         </Typography>
@@ -182,7 +179,6 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
                         sx={{
                             fontWeight: 700,
                             color: 'primary.main',
-                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", "Amiri", sans-serif',
                             mb: 1,
                         }}
                     >
@@ -196,7 +192,6 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
                         <Typography
                             variant="body1"
                             color="text.secondary"
-                            sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                         >
                             {diseasesLoading ? (
                                 <Skeleton width={200} />
@@ -210,7 +205,6 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
                             onClick={handleAddClick}
                             sx={{
                                 direction: 'rtl',
-                                fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                             }}
                         >
                             &nbsp;
@@ -251,7 +245,7 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
                 onClose={handleCloseSnackbar}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                <Alert dir='ltr' onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
                     {snackbar.message}
                 </Alert>
             </Snackbar>

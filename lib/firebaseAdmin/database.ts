@@ -125,10 +125,13 @@ export const getDiseaseDocById = async (diseaseDocId: string): Promise<diseaseDo
     if (!diseaseDocSnap.exists) {
         return null;
     }
-    const diseaseDocData = diseaseDocSnap.data() as diseaseDocData;
+    const diseaseDocData = diseaseDocSnap.data() as any;
+    
+    // Deserialize blocks if they're stored as JSON string
     const diseaseDoc: diseaseDoc = {
         id: diseaseDocSnap.id,
-        ...diseaseDocData
+        ...diseaseDocData,
+        blocks: typeof diseaseDocData.blocks === 'string' ? JSON.parse(diseaseDocData.blocks) : diseaseDocData.blocks
     };
     return diseaseDoc;
 }
@@ -149,7 +152,13 @@ export const getDiseaseDocByDiseaseId = async (diseaseId: string): Promise<disea
     return getDiseaseDocById(diseaseData.docId);
 }
 export const addDiseaseDoc = async (diseaseDocData: diseaseDocData): Promise<diseaseDoc> => {
-    const newDiseaseDocRef = await db.collection('diseaseDocs').add(diseaseDocData);
+    // Serialize blocks to JSON string to avoid Firebase nested array/object restrictions
+    const serializedData = {
+        ...diseaseDocData,
+        blocks: JSON.stringify(diseaseDocData.blocks)
+    };
+    
+    const newDiseaseDocRef = await db.collection('diseaseDocs').add(serializedData);
     
     const newDiseaseDoc: diseaseDoc = {
         id: newDiseaseDocRef.id,
@@ -159,12 +168,23 @@ export const addDiseaseDoc = async (diseaseDocData: diseaseDocData): Promise<dis
 }
 
 export const updateDiseaseDoc = async (diseaseDoc: diseaseDoc): Promise<diseaseDoc> => {
-    await db.collection('diseaseDocs').doc(diseaseDoc.id).update(diseaseDoc as diseaseDocData);
-    const updatedDiseaseDoc = await db.collection('diseaseDocs').doc(diseaseDoc.id).get();
+    const { id, ...dataToUpdate } = diseaseDoc;
     
+    // Serialize blocks to JSON string to avoid Firebase nested array/object restrictions
+    const serializedData = {
+        ...dataToUpdate,
+        blocks: JSON.stringify(dataToUpdate.blocks)
+    };
+    
+    await db.collection('diseaseDocs').doc(id).update(serializedData);
+    const updatedDiseaseDoc = await db.collection('diseaseDocs').doc(id).get();
+    const docData = updatedDiseaseDoc.data() as any;
+    
+    // Deserialize blocks back from JSON string
     return {
         id: updatedDiseaseDoc.id,
-        ...(updatedDiseaseDoc.data() as diseaseDocData) as diseaseDocData
+        ...docData,
+        blocks: typeof docData.blocks === 'string' ? JSON.parse(docData.blocks) : docData.blocks
     };
 }
 
@@ -197,4 +217,14 @@ export const deleteDiseaseDocByDiseaseId = async (diseaseId: string): Promise<vo
         }  
     }
     throw new Error('Disease not found');
-} 
+}
+
+export const diseaseCount = async (): Promise<number> => {
+    const snapshot = await db.collection('diseases').get();
+    return snapshot.size;
+}
+
+export const plantCount = async (): Promise<number> => {
+    const snapshot = await db.collection('plants').get();
+    return snapshot.size;
+}

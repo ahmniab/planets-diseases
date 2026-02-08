@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { plant, plantData } from '@/models/plant';
-import { plantService } from '@/libs/network';
-import { handleApiError } from '@/libs/network';
+import { plant, plantData } from '@/types/plant';
+import { plantService } from '@/lib/network';
+import { handleApiError } from '@/lib/network';
 
 // Query keys
 export const plantKeys = {

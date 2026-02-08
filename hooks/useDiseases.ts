@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { disease, diseaseSummary } from '@/models/disease';
-import { diseaseService } from '@/libs/network/diseaseService';
+import { disease, diseaseSummary } from '@/types/disease';
+import { diseaseService } from '@/lib/network/diseaseService';
 
 // Query keys
 export const diseaseKeys = {

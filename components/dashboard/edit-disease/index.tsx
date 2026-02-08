@@ -12,22 +12,15 @@ import {
     styled,
     Breadcrumbs,
     Link,
-    Stack,
 } from '@mui/material';
+import Loading from '@/app/content/loading';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
-import { disease, diseaseDoc, diseaseDocData, diseaseDocElement } from '@/types/disease';
+import { diseaseDocBlock, diseaseDocData } from '@/types/disease';
+import { useDiseaseDoc } from '@/hooks/useDiseaseDoc';
 import SaveIcon from '@mui/icons-material/Save';
-import AddIcon from '@mui/icons-material/Add';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import TextFieldsIcon from '@mui/icons-material/TextFields';
-import ImageIcon from '@mui/icons-material/Image';
-import CollectionsIcon from '@mui/icons-material/Collections';
-import ParagraphEditor from './ParagraphEditor';
-import ImageEditor from './ImageEditor';
-import ImagesGalleryEditor from './ImagesGalleryEditor';
+import Editor from './Editor';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
@@ -57,84 +50,36 @@ interface EditDiseasePageProps {
 
 export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
     const router = useRouter();
-    const queryClient = useQueryClient();
-    const [content, setContent] = useState<diseaseDocElement[]>([]);
+    const { disease, diseaseDoc, isLoading, save, isSaving, saveError, saveSuccess } = useDiseaseDoc(diseaseId);
+    const [content, setContent] = useState<diseaseDocData>();
     const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
         open: false,
         message: '',
         severity: 'success',
     });
 
-    // Fetch disease info
-    const { data: disease, isLoading: diseaseLoading } = useQuery<disease>({
-        queryKey: ['disease', diseaseId],
-        queryFn: async () => {
-            const response = await axios.get(`/api/diseases/${diseaseId}`);
-            return response.data;
-        },
-    });
-
-    // Fetch disease doc
-    const { data: diseaseDoc, isLoading: docLoading } = useQuery<diseaseDoc>({
-        queryKey: ['diseaseDoc', disease?.docId],
-        queryFn: async () => {
-            if (!disease?.docId) throw new Error('No doc ID');
-            const response = await axios.get(`/api/disease-docs/${disease.docId}`);
-            return response.data;
-        },
-        enabled: !!disease?.docId,
-    });
-
     useEffect(() => {
-        if (diseaseDoc?.content) {
-            setContent(diseaseDoc.content);
+        if (diseaseDoc?.blocks) {
+            setContent(diseaseDoc);
+            console.log('Loaded content into editor:', diseaseDoc.blocks);
         }
     }, [diseaseDoc]);
 
-    // Update mutation
-    const updateMutation = useMutation({
-        mutationFn: async (data: diseaseDocData) => {
-            if (!disease?.docId) throw new Error('No doc ID');
-            const response = await axios.put(`/api/disease-docs/${disease.docId}`, data);
-            return response.data;
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['diseaseDoc', disease?.docId] });
+    useEffect(() => {
+        if (saveSuccess) {
             setSnackbar({ open: true, message: 'تم حفظ التغييرات بنجاح', severity: 'success' });
-        },
-        onError: () => {
+        }
+    }, [saveSuccess]);
+
+    useEffect(() => {
+        if (saveError) {
             setSnackbar({ open: true, message: 'حدث خطأ أثناء الحفظ', severity: 'error' });
-        },
-    });
+        }
+    }, [saveError]);
 
     const handleSave = () => {
-        if (!disease) return;
-        
-        updateMutation.mutate({
-            diseaseId: disease.id,
-            content: content,
-        });
-    };
-
-    const handleAddElement = (type: 'paragraph' | 'image' | 'diseasesImages') => {
-        const newElement: diseaseDocElement = 
-            type === 'paragraph' 
-                ? { type: 'paragraph', title: '', paragraph: '' }
-                : type === 'image'
-                ? { type: 'image', url: '', altText: '', caption: '' }
-                : { type: 'diseasesImages', title: '', images: [] };
-        
-        setContent([...content, newElement]);
-    };
-
-    const handleUpdateElement = (index: number, element: diseaseDocElement) => {
-        const newContent = [...content];
-        newContent[index] = element;
-        setContent(newContent);
-    };
-
-    const handleDeleteElement = (index: number) => {
-        setContent(content.filter((_, i) => i !== index));
+        if (!disease || !content) return;
+        save(content);
     };
 
     const handleBreadcrumbClick = (path: string) => (event: React.MouseEvent) => {
@@ -142,11 +87,13 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
         router.push(path);
     };
 
-    if (diseaseLoading || docLoading) {
+    const handleDocumentChange = (data: any) => {
+        setContent(data);
+    };
+
+    if (isLoading) {
         return (
-            <Container maxWidth="xl" sx={{ mt: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 400 }}>
-                <CircularProgress size={60} />
-            </Container>
+            <Loading />
         );
     }
 
@@ -154,7 +101,7 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
         return (
             <Container maxWidth="xl" sx={{ mt: 4 }}>
                 <Alert severity="error" sx={{ direction: 'rtl' }}>
-                    <Typography sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}>
+                    <Typography >
                         المرض غير موجود
                     </Typography>
                 </Alert>
@@ -179,7 +126,6 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                                     textDecoration: 'none',
                                     color: 'text.secondary',
                                     '&:hover': { color: 'primary.main' },
-                                    fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                                 }}
                             >
                                 لوحة التحكم
@@ -192,14 +138,12 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                                     textDecoration: 'none',
                                     color: 'text.secondary',
                                     '&:hover': { color: 'primary.main' },
-                                    fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                                 }}
                             >
                                 النباتات
                             </Link>
                             <Typography
                                 color="text.primary"
-                                sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                             >
                                 تعديل {disease.name}
                             </Typography>
@@ -212,7 +156,6 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                             sx={{
                                 fontWeight: 700,
                                 color: 'primary.main',
-                                fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", "Amiri", sans-serif',
                             }}
                         >
                             تعديل وثيقة المرض: {disease.title}
@@ -223,91 +166,14 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                         variant="contained"
                         startIcon={<SaveIcon />}
                         onClick={handleSave}
-                        disabled={updateMutation.isPending}
-                        sx={{
-                            direction: 'rtl',
-                            fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
-                        }}
+                        disabled={isSaving}
+                        dir="ltr"
                     >
-                        {updateMutation.isPending ? <CircularProgress size={24} /> : 'حفظ التغييرات'}
+                        {isSaving ? <CircularProgress size={24} /> : 'حفظ التغييرات'}
                     </Button>
                 </HeaderContainer>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3, direction: 'rtl' }}>
-                    <Button
-                        variant="outlined"
-                        startIcon={<TextFieldsIcon />}
-                        onClick={() => handleAddElement('paragraph')}
-                        sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
-                    >
-                        إضافة فقرة
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        startIcon={<ImageIcon />}
-                        onClick={() => handleAddElement('image')}
-                        sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
-                    >
-                        إضافة صورة
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        startIcon={<CollectionsIcon />}
-                        onClick={() => handleAddElement('diseasesImages')}
-                        sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
-                    >
-                        إضافة معرض صور
-                    </Button>
-                </Stack>
-
-                <Stack spacing={3}>
-                    {content.map((element, index) => (
-                        <Box key={index}>
-                            {element.type === 'paragraph' && (
-                                <ParagraphEditor
-                                    element={element}
-                                    onSave={(updatedElement) => handleUpdateElement(index, updatedElement)}
-                                    onDelete={() => handleDeleteElement(index)}
-                                />
-                            )}
-                            
-                            {element.type === 'image' && (
-                                <ImageEditor
-                                    element={element}
-                                    onSave={(updatedElement) => handleUpdateElement(index, updatedElement)}
-                                    onDelete={() => handleDeleteElement(index)}
-                                />
-                            )}
-                            
-                            {element.type === 'diseasesImages' && (
-                                <ImagesGalleryEditor
-                                    element={element}
-                                    onSave={(updatedElement) => handleUpdateElement(index, updatedElement)}
-                                    onDelete={() => handleDeleteElement(index)}
-                                />
-                            )}
-                        </Box>
-                    ))}
-
-                    {content.length === 0 && (
-                        <Paper
-                            elevation={0}
-                            sx={{
-                                p: 6,
-                                textAlign: 'center',
-                                backgroundColor: 'action.hover',
-                            }}
-                        >
-                            <Typography
-                                variant="h6"
-                                color="text.secondary"
-                                sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
-                            >
-                                لا توجد عناصر بعد. قم بإضافة عنصر للبدء.
-                            </Typography>
-                        </Paper>
-                    )}
-                </Stack>
+                {content ? <Editor diseaseDoc={content} onChange={handleDocumentChange} /> : <Loading />}
             </StyledPaper>
 
             <Snackbar
@@ -316,7 +182,7 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                 onClose={() => setSnackbar({ ...snackbar, open: false })}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity}>
+                <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} dir='ltr' severity={snackbar.severity}>
                     {snackbar.message}
                 </Alert>
             </Snackbar>

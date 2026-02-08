@@ -42,14 +42,13 @@ export default function DeleteDiseaseDialog({
                     display: 'flex', 
                     alignItems: 'center', 
                     gap: 1,
-                    fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                 }}
             >
                 <WarningAmberIcon color="warning" />
                 تأكيد الحذف
             </DialogTitle>
             <DialogContent>
-                <Typography sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}>
+                <Typography>
                     هل أنت متأكد من حذف المرض <strong>{disease?.name}</strong>؟
                     <br />
                     لا يمكن التراجع عن هذا الإجراء.
@@ -59,7 +58,6 @@ export default function DeleteDiseaseDialog({
                 <Button 
                     onClick={onClose} 
                     disabled={isLoading}
-                    sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                 >
                     إلغاء
                 </Button>
@@ -68,7 +66,6 @@ export default function DeleteDiseaseDialog({
                     variant="contained" 
                     color="error"
                     disabled={isLoading}
-                    sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                 >
                     {isLoading ? <CircularProgress size={24} /> : 'حذف'}
                 </Button>

@@ -14,6 +14,8 @@ import {
   Search,
 } from '@mui/icons-material';
 
+import { useRouter } from 'next/navigation';
+
 const stats = [
   { number: '200+', label: 'مرض مُفهرس' },
   { number: '50+', label: 'نوع نبات' },
@@ -23,6 +25,7 @@ const stats = [
 
 const HeroSection: React.FC = () => {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <Box
@@ -100,6 +103,7 @@ const HeroSection: React.FC = () => {
                 borderRadius: '25px',
                 boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
               }}
+              onClick={() => router.push('/content/plants')}
             >
               &nbsp;تصفح الدليل
             </Button>
