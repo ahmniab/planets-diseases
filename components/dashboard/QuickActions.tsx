@@ -21,7 +21,7 @@ const QuickActions = () => {
                 variant="contained"
                 fullWidth
                 sx={{ p: 2, textTransform: 'none' }}
-                onClick={() => router.push('/dashboard/plants/add')}
+                onClick={() => router.push('/dashboard/plants')}
               >
                 إضافة نبات جديد
               </Button>
