@@ -217,4 +217,14 @@ export const deleteDiseaseDocByDiseaseId = async (diseaseId: string): Promise<vo
         }  
     }
     throw new Error('Disease not found');
-} 
+}
+
+export const diseaseCount = async (): Promise<number> => {
+    const snapshot = await db.collection('diseases').get();
+    return snapshot.size;
+}
+
+export const plantCount = async (): Promise<number> => {
+    const snapshot = await db.collection('plants').get();
+    return snapshot.size;
+}
