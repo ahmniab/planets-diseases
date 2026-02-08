@@ -6,8 +6,8 @@ const DashboardPage = () => {
 
   return (
     <Dashboard 
-      plantsCount={69}
-      diseasesCount={69}
+      plantsCount={3}
+      diseasesCount={0}
     />
   );
 };
