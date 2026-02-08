@@ -42,7 +42,7 @@ export default function DiseasesGrid({ diseases, isLoading, error, onEdit, onDel
         return (
             <Box p={3}>
                 <Alert severity="error" sx={{ direction: 'rtl' }}>
-                    <Typography variant="body1" sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}>
+                    <Typography variant="body1">
                         حدث خطأ أثناء تحميل الأمراض: {error.message}
                     </Typography>
                 </Alert>
@@ -60,7 +60,6 @@ export default function DiseasesGrid({ diseases, isLoading, error, onEdit, onDel
                     sx={{ 
                         fontWeight: 600,
                         color: 'text.secondary',
-                        fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif',
                     }}
                 >
                     لا توجد أمراض مسجلة
@@ -68,7 +67,6 @@ export default function DiseasesGrid({ diseases, isLoading, error, onEdit, onDel
                 <Typography 
                     variant="body1" 
                     color="text.secondary"
-                    sx={{ fontFamily: '"Noto Sans Arabic", "Cairo", "Tajawal", sans-serif' }}
                 >
                     لم يتم إضافة أي أمراض لهذا النبات بعد
                 </Typography>
