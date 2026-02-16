@@ -66,6 +66,7 @@ const PlantForm: React.FC<PlantFormProps> = ({
 
   const handleFormSubmit = async (data: plantData) => {
     try {
+      data.name = data.name.trim();
       await onSubmit(data);
       if (!initialData) {
         reset(); // Reset form only for new plants
