@@ -7,6 +7,7 @@ import {
     CardMedia, 
     CardContent,
     Button,
+    Box,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
@@ -25,13 +26,23 @@ const PlantCard: FC<PlantProps> = ({ Plant }) => {
         alt={Plant.name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {Plant.name}
-        </Typography>
-        <Button size="small" color="primary" 
-            onClick={() => router.push(`/content/plants/${Plant.id}/diseases`)}>
-          عرض أمراض النبات
-        </Button>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          justifyContent: 'center', 
+          mb: 2 
+        }}>
+          <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
+            {Plant.name}
+          </Typography>
+          <Button 
+            size="small" 
+            color="primary" 
+            href={`/content/plants/${Plant.id}/diseases`}
+          >
+            عرض أمراض النبات
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );
