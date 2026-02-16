@@ -1,6 +1,8 @@
+'use client';
 import { plant } from "@/types/plant";
 import PlantCard from "./PlantCard";
 import { Grid } from "@mui/system";
+import SearchBar from "../shared/SearchBar";
 
 interface PlantsProps {
   plants: plant[];
