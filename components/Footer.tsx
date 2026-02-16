@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
         color: 'white',
         pt: 6,
         pb: 3,
-        mt: 8,
+        mt: 2,
       }}
     >
       <Container maxWidth="lg">

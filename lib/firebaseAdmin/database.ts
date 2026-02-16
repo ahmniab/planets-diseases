@@ -26,8 +26,13 @@ export const getPlantById = async (plantId: string): Promise<plant | null> => {
     return plant;
 }
 
-export const getAllPlants = async (): Promise<plant[]> => {
-    const snapshot = await db.collection('plants').get();
+export const getAllPlants = async (query?: string, page: number = 1, limit: number = 10): Promise<plant[]> => {
+    let snapshot;
+    if (query && query !== "") {
+        snapshot = await db.collection('plants').where('name', '>=', query).where('name', '<=', query + '\uf8ff').limit(limit).offset((page - 1) * limit).get();
+    } else {
+        snapshot = await db.collection('plants').limit(limit).offset((page - 1) * limit).get();
+    }
     const plants: plant[] = [];
     snapshot.forEach(doc => {
         const data = doc.data() as plantData;
@@ -37,6 +42,17 @@ export const getAllPlants = async (): Promise<plant[]> => {
         });
     });
     return plants;
+}
+
+export const getAllPlantsCount = async (query?: string): Promise<number> => {
+  const baseQuery = db.collection('plants');
+  
+  const finalQuery = query && query !== ""
+    ? baseQuery.where('name', '>=', query).where('name', '<=', query + '\uf8ff')
+    : baseQuery;
+  
+  const snapshot = await finalQuery.count().get();
+  return snapshot.data().count;
 }
 
 export const updatePlant = async (plantId: string, plantData: Partial<plantData>): Promise<plant> => {
