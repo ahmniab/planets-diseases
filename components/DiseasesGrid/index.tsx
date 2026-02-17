@@ -9,9 +9,9 @@ interface DiseasesProps {
 const DiseasesGrid: React.FC<DiseasesProps> = ({ diseases }) => {
   return (
     <>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+      <Grid container spacing={{ xs: 2, md: 3 }}>
           {diseases.map((disease) => (
-              <Grid size={2} key={disease.id}>
+              <Grid key={disease.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                   <DiseaseCard disease={disease} />
               </Grid>
           ))}
