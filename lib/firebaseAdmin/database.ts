@@ -72,10 +72,19 @@ export const deletePlant = async (plantId: string): Promise<void> => {
     await db.collection('plants').doc(plantId).delete();
 }
 
-export const getPlantDiseases = async (plantId: string): Promise<disease[]> => {
-    const diseases = await db.collection('diseases')
-                             .where('plantId', '==', plantId)
-                             .get();
+export const getPlantDiseases = 
+    async (plantId: string, query?: string, page: number = 1, limit: number = 10): 
+    Promise<disease[]> => 
+{
+    let diseasesQuery = db.collection('diseases').where('plantId', '==', plantId);
+    
+    if (query && query !== "") {
+        console.log("Applying search filter to diseases query with query:", query);
+        diseasesQuery = diseasesQuery.where('name', '>=', query)
+            .where('name', '<=', query + '\uf8ff').orderBy("name");
+    }
+
+    const diseases = await diseasesQuery.limit(limit).offset((page - 1) * limit).get();
 
     const diseaseList: disease[] = [];
     diseases.forEach(doc => {
@@ -86,6 +95,17 @@ export const getPlantDiseases = async (plantId: string): Promise<disease[]> => {
         });
     });
     return diseaseList;
+}
+
+export const getPlantDiseasesCount = async (plantId: string, query?: string): Promise<number> => {
+    let diseasesQuery = db.collection('diseases').where('plantId', '==', plantId);
+    
+    if (query && query !== "") {
+        diseasesQuery = diseasesQuery.where('name', '>=', query).where('name', '<=', query + '\uf8ff');
+    }
+
+    const snapshot = await diseasesQuery.count().get();
+    return snapshot.data().count;
 }
 
 export const addDisease = async (diseaseData: diseaseSummary): Promise<disease> => {
