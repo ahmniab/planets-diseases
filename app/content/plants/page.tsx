@@ -12,7 +12,7 @@ import CustomPagination from "@/components/shared/Pagination";
 import NoResults from "@/components/NoResults";
 
 
-async function Plants({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) { 
+const Plants = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => { 
     const query = (await searchParams).q as string || "";
     const page = parseInt((await searchParams).p as string) || 1;
     
