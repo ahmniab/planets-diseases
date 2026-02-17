@@ -2,8 +2,11 @@
 
 import {
     Card,
+    CardMedia,
+    CardContent,
     Button,
     Typography,
+    Box,
 } from '@mui/material';
 
 import { disease } from "@/types/disease"; 
@@ -15,24 +18,31 @@ interface DiseaseCardProps {
 const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease }) => {
     const router = useRouter();
     return (
-        <Card
-            variant="outlined"
-            sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-            }}
-        >
-            <Typography variant="h5">{disease.title}</Typography>
-            <Button
-                variant="contained"
-                onClick={() => router.push(`/content/diseases/${disease.id}`)}
-                sx={{ mt: 'auto' }}
-            >
-                عرض التفاصيل
-            </Button>
+        <Card /*variant="outlined"*/>
+            <CardMedia
+                component="img"
+                height="140"
+                image={disease.mainImageUrl}
+                alt={disease.title}
+            />
+            <CardContent>
+                <Box sx={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    mb: 2 
+                }}>
+                    <Typography variant="h5">{disease.title}</Typography>
+                    <Button
+                        // variant="outlined"
+                        href={`/content/diseases/${disease.id}`}
+                        size='small'
+                        color='primary'
+                    >
+                        عرض التفاصيل
+                    </Button>
+                </Box>
+            </CardContent>
         </Card>
     );
 };
