@@ -7,6 +7,7 @@ import Link from "next/link";
 import SearchBar from "@/components/shared/SearchBar";
 import CustomPagination from "@/components/shared/Pagination";
 import type { plant } from "@/types/plant";
+import CustomBreadcrumbs from "@/components/shared/CustomBreadcrumbs";
 
 const Diseases = async ({ params, searchParams }: { 
     params: Promise<{ plantId: string }>, 
@@ -28,9 +29,17 @@ const Diseases = async ({ params, searchParams }: {
             <Link href="/not-found" />
         );
     }
+
+    const navigationItems = [
+        { label: "الصفحة الرئيسية", href: "/" },
+        { label: "النباتات", href: "/content/plants" },
+        { label: `أمراض ${plant?.name || 'النبات'}`},
+    ];
+
     return (
         <>
         <Container sx={{ mt: 1, minHeight: '75vh' }}>
+            <CustomBreadcrumbs items={navigationItems} />
             <SearchBar 
                 searchPlaceholder={`ابحث عن امراض ${plant?.name || 'النبات'}`} 
                 navigateString={`/content/plants/${plantId}/diseases?q=%s&p=1`} 
