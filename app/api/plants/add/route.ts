@@ -15,7 +15,6 @@ export async function POST(request: Request) {
         
         return Response.json(newPlant, { status: 201 });
     } catch (error) {
-        console.error("Error adding plant:", error);
         return Response.json(
             { error: "Failed to add plant" }, 
             { status: 500 }

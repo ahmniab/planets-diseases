@@ -14,7 +14,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         }
         return Response.json(plant, { status: 200 });
     } catch (error) {
-        console.error("Error fetching plant:", error);
         return Response.json(
             { error: "Failed to fetch plant" },
             { status: 500 }
@@ -35,7 +34,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         const updatedPlant = await updatePlant(id, data);
         return Response.json(updatedPlant, { status: 200 });
     } catch (error) {
-        console.error("Error updating plant:", error);
         return Response.json(
             { error: "Failed to update plant" },
             { status: 500 }
@@ -63,7 +61,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
             { status: 200 }
         );
     } catch (error) {
-        console.error("Error deleting plant:", error);
         return Response.json(
             { error: "Failed to delete plant" },
             { status: 500 }

@@ -16,7 +16,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         
         return Response.json(disease, { status: 200 });
     } catch (error) {
-        console.error("Error fetching disease:", error);
         return Response.json(
             { error: "Failed to fetch disease" },
             { status: 500 }
@@ -37,7 +36,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         const updatedDisease = await updateDisease(id, data);
         return Response.json(updatedDisease, { status: 200 });
     } catch (error) {
-        console.error("Error updating disease:", error);
         return Response.json(
             { error: "Failed to update disease" },
             { status: 500 }
@@ -60,7 +58,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
             { status: 200 }
         );
     } catch (error) {
-        console.error("Error deleting disease:", error);
         return Response.json(
             { error: "Failed to delete disease" },
             { status: 500 }

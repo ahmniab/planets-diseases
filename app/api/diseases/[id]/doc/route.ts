@@ -14,7 +14,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         
         return Response.json(diseaseDoc, { status: 200 });
     } catch (error) {
-        console.error("Error fetching disease document:", error);
         return Response.json(
             { error: "Failed to fetch disease document" },
             { status: 500 }

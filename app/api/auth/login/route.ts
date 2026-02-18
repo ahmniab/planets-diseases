@@ -3,7 +3,6 @@ import { authAdmin } from '@/lib/firebaseAdmin/firebase';
 
 export async function POST(req: Request) {
   try {
-    console.log('Login route called');
     const { idToken } = await req.json();
     if (!idToken) return NextResponse.json({ error: 'No token' }, { status: 400 });
 

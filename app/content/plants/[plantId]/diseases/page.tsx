@@ -17,21 +17,17 @@ const Diseases = async ({ params, searchParams }: {
     const page = parseInt((await searchParams).p as string) || 1;
 
     
-    console.log("Fetching diseases for plantId:", plantId);
     let plant : plant|null = await getPlantById(plantId);
     let data: disease[];
     let pageCount = 0;
     try {
         data = await getPlantDiseases(plantId, query, page);
-        console.log("Fetched diseases data:", data);
         pageCount = Math.ceil(await getPlantDiseasesCount(plantId, query) / 10);
     } catch (error) {
-        console.error("Error fetching diseases for plantId:", plantId, "with query:", query, "and page:", page, "Error:", error);
         return (
             <Link href="/not-found" />
         );
     }
-    console.log("start rendering component with data")
     return (
         <>
         <Container sx={{ mt: 1, minHeight: '75vh' }}>
