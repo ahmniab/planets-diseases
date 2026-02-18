@@ -9,7 +9,7 @@ import Link from "next/link";
 import SearchBar from "@/components/shared/SearchBar";
 import CustomPagination from "@/components/shared/Pagination";
 import NoResults from "@/components/NoResults";
-
+import CustomBreadcrumbs from "@/components/shared/CustomBreadcrumbs";
 
 const Plants = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => { 
     const query = (await searchParams).q as string || "";
@@ -26,9 +26,17 @@ const Plants = async ({ searchParams }: { searchParams: Promise<{ [key: string]:
         );
     }
 
+    const navigationItems = [
+        { label: "الصفحة الرئيسية", href: "/" },
+        { label: "النباتات", href: "/content/plants" },
+    ];
+
     return (
         <>
             <Container sx={{ p: 2, minHeight: "75vh" }}>
+                <CustomBreadcrumbs 
+                    items={navigationItems}
+                />
                 <SearchBar 
                     initialSearchText={query} 
                     navigateString={`/content/plants?q=%s&p=1`}
