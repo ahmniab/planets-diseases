@@ -28,42 +28,45 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Get initial theme from localStorage or default to light
-  const getInitialTheme = (): ThemeMode => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('plants-diseases-theme');
-      if (stored && (stored === 'light' || stored === 'dark')) {
-        return stored;
-      }
-      // Check system preference
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
+  const [mode, setMode] = useState<ThemeMode>('light');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    const stored = localStorage.getItem('plants-diseases-theme');
+    if (stored === 'light' || stored === 'dark') {
+      setMode(stored);
+      return;
     }
-    return 'light';
-  };
-
-  const [mode, setMode] = useState<ThemeMode>(getInitialTheme);
-
-  // Save theme preference to localStorage
-  useEffect(() => {
-    localStorage.setItem('plants-diseases-theme', mode);
-  }, [mode]);
-
-  // Listen to system theme changes
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleChange = (e: MediaQueryListEvent) => {
-        if (!localStorage.getItem('plants-diseases-theme')) {
-          setMode(e.matches ? 'dark' : 'light');
-        }
-      };
-
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+    
+    if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+      setMode('dark');
     }
   }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem('plants-diseases-theme', mode);
+    }
+  }, [mode, mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      // Only auto-switch if user hasn't set a preference
+      if (!localStorage.getItem('plants-diseases-theme')) {
+        setMode(e.matches ? 'dark' : 'light');
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [mounted]);
+
+  const theme = mounted ? (mode === 'light' ? lightTheme : darkTheme) : lightTheme;
 
   const toggleTheme = () => {
     setMode(prevMode => prevMode === 'light' ? 'dark' : 'light');
@@ -72,8 +75,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const setTheme = (newMode: ThemeMode) => {
     setMode(newMode);
   };
-
-  const theme = mode === 'light' ? lightTheme : darkTheme;
 
   const contextValue: ThemeContextType = {
     mode,
