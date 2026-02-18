@@ -23,6 +23,7 @@ const DocWrapper = styled(Box)(({ theme }) => ({
     padding: theme.spacing(4, 5),
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(6),
+    minHeight: '60vh',
     border: `1px solid ${theme.palette.divider}`,
     boxShadow:
         theme.palette.mode === 'dark'
@@ -55,15 +56,13 @@ const renderBlock = (block: diseaseDocBlock) => {
 
 const DiseaseDoc: React.FC<{ data: diseaseDoc }> = ({ data }) => {
     return (
-        <Container maxWidth="md">
-            <DocWrapper>
-                {data.blocks.map((block, index) => (
-                    <Box key={block.id || index}>
-                        {renderBlock(block)}
-                    </Box>
-                ))}
-            </DocWrapper>
-        </Container>
+        <DocWrapper>
+            {data.blocks.map((block, index) => (
+                <Box key={block.id || index}>
+                    {renderBlock(block)}
+                </Box>
+            ))}
+        </DocWrapper>
     );
 };
 
