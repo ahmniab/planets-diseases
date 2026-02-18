@@ -7,7 +7,7 @@ export default function DashboardLayout({
 }) {
   return (
     <AuthGuard>
-        {children}
+      {children}
     </AuthGuard>
   );
 }
