@@ -13,7 +13,7 @@ import {
     Breadcrumbs,
     Link,
 } from '@mui/material';
-import Loading from '@/app/content/loading';
+import Loading from '@/app/loading';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { diseaseDocBlock, diseaseDocData } from '@/types/disease';
@@ -82,10 +82,6 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
         save(content);
     };
 
-    const handleBreadcrumbClick = (path: string) => (event: React.MouseEvent) => {
-        event.preventDefault();
-        router.push(path);
-    };
 
     const handleDocumentChange = (data: any) => {
         setContent(data);
@@ -119,9 +115,8 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                             sx={{ mb: 2, direction: 'rtl' }}
                         >
                             <Link
-                                component="button"
                                 variant="body1"
-                                onClick={handleBreadcrumbClick('/dashboard')}
+                                href="/dashboard"
                                 sx={{
                                     textDecoration: 'none',
                                     color: 'text.secondary',
@@ -131,12 +126,12 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                                 لوحة التحكم
                             </Link>
                             <Link
-                                component="button"
                                 variant="body1"
-                                onClick={handleBreadcrumbClick('/dashboard/plants')}
+                                href={'/dashboard/plants'}
                                 sx={{
                                     textDecoration: 'none',
                                     color: 'text.secondary',
+                                    cursor: 'pointer',
                                     '&:hover': { color: 'primary.main' },
                                 }}
                             >

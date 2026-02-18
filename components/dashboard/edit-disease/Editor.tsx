@@ -46,7 +46,7 @@ const Editor: React.FC<{diseaseDoc:diseaseDocData, onChange?: (data: any) => voi
       tools: { 
         header: Header,
         paragraph: {
-          class: Paragraph,
+          class: Paragraph as any,
           inlineToolbar: true, 
           config: {
             placeholder: 'ابدأ بالكتابة هنا...',
@@ -58,7 +58,7 @@ const Editor: React.FC<{diseaseDoc:diseaseDocData, onChange?: (data: any) => voi
         },
         list: List,
         table: {
-          class: Table,
+          class: Table as any,
           inlineToolbar: true,
         },
         delimiter: Delemeter,
