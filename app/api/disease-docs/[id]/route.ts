@@ -1,5 +1,6 @@
 import { getDiseaseDocById, updateDiseaseDoc } from "@/lib/firebaseAdmin/database";
 import { diseaseDocData } from "@/types/disease";
+import { requireAuth } from "@/lib/firebaseAdmin/auth";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
@@ -24,6 +25,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 }
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    // Verify authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof Response) {
+        return authResult;
+    }
+    
     try {
         const { id } = await params;
         const data: diseaseDocData = await request.json();
