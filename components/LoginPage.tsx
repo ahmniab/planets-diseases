@@ -18,7 +18,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useAuth } from '@/contexts/AuthContext';
-import { SetSession } from '@/lib/auth/client';
 
 const loginSchema = yup.object({
   email: yup
@@ -71,10 +70,7 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     setLoginError(null);
     try {
-      const userCredential = await signIn(data.email, data.password);
-      const token = await userCredential.user.getIdToken();
-      await SetSession(token);
-      router.push('/dashboard');
+      await signIn(data.email, data.password);
     } catch (error: any) {
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
         setLoginError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
