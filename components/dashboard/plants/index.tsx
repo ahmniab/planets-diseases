@@ -25,6 +25,7 @@ import {
     useCreatePlant
 } from '@/hooks/usePlants';
 import { getErrorMessage } from '@/lib/network';
+import CustomBreadcrumbs from '@/components/shared/CustomBreadcrumbs';
 
 type EditDialogState =  {
     open: boolean;
@@ -37,6 +38,11 @@ type EditDialogState =  {
   };
 
 const PlantsAdminPage = () => {
+
+  const navigationItems = [
+    { label: 'لوحة التحكم', href: '/dashboard' },
+    { label: 'إدارة النباتات' },
+  ];
   
   // React Query hooks
   const { data: plants = [], isLoading, error, refetch } = usePlants();
@@ -162,11 +168,13 @@ const PlantsAdminPage = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Page Header */}
+      <CustomBreadcrumbs items={navigationItems} />
       <Paper 
         elevation={1} 
         sx={{ 
           p: 3, 
-          mb: 4, 
+          mb: 4,
+          mt: 2,
         }}
       >
         <Box 
