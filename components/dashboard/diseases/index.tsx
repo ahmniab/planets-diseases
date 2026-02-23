@@ -30,6 +30,7 @@ import axios from 'axios';
 import { plant } from '@/types/plant';
 import { disease, diseaseSummary } from '@/types/disease';
 import { useState } from 'react';
+import CustomBreadcrumbs from '@/components/shared/CustomBreadcrumbs';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
@@ -66,7 +67,12 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
             return response.data;
         },
     });
-
+    const navigationItems = [
+        { label: 'لوحة التحكم', href: '/dashboard' },
+        { label: 'النباتات', href: '/dashboard/plants' },
+        { label: 'الأمراض' },
+    ];
+    
     // Dialog states
     const [formDialogOpen, setFormDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -137,41 +143,7 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
         <Container maxWidth="xl" sx={{ mt: 4, mb: 6 }}>
             <StyledPaper>
                 <HeaderContainer>
-                    <Breadcrumbs
-                        separator={<NavigateNextIcon fontSize="small" sx={{ transform: 'rotate(180deg)' }} />}
-                        sx={{ mb: 2, direction: 'rtl' }}
-                    >
-                        <Link
-                            component="button"
-                            variant="body1"
-                            onClick={handleBreadcrumbClick('/dashboard')}
-                            sx={{
-                                textDecoration: 'none',
-                                color: 'text.secondary',
-                                '&:hover': { color: 'primary.main' },
-                            }}
-                        >
-                            لوحة التحكم
-                        </Link>
-                        <Link
-                            component="button"
-                            variant="body1"
-                            onClick={handleBreadcrumbClick('/dashboard/plants')}
-                            sx={{
-                                textDecoration: 'none',
-                                color: 'text.secondary',
-                                '&:hover': { color: 'primary.main' },
-                            }}
-                        >
-                            النباتات
-                        </Link>
-                        <Typography
-                            color="text.primary"
-                        >
-                            {plantLoading ? <Skeleton width={100} /> : plant?.name || 'الأمراض'}
-                        </Typography>
-                    </Breadcrumbs>
-
+                    <CustomBreadcrumbs items={navigationItems} />
                     <Typography
                         variant="h4"
                         component="h1"
