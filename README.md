@@ -43,7 +43,7 @@ A comprehensive Next.js application for managing and documenting plant diseases.
 ### Prerequisites
 
 - Node.js 20+ installed
-- npm, yarn, pnpm, or bun package manager
+- npm package manager
 - Firebase project with Firestore and Authentication enabled
 - Redis server (optional, for caching)
 
