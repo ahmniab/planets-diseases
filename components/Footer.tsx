@@ -78,20 +78,11 @@ const Footer: React.FC = () => {
               روابط مهمة
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
+              <Link href="/content" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
                 الصفحة الرئيسية
               </Link>
-              <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
-                دليل الأمراض
-              </Link>
-              <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
+              <Link href="/content/plants" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
                 أنواع النباتات
-              </Link>
-              <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
-                طرق العلاج
-              </Link>
-              <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
-                نصائح الوقاية
               </Link>
             </Box>
           </Box>
@@ -128,16 +119,16 @@ const Footer: React.FC = () => {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
           <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            © 2025 دليل أمراض النباتات. مرجع علمي مجاني.
+            © 2026 دليل أمراض النباتات. مرجع علمي مجاني.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 3 }}>
+          {/* <Box sx={{ display: 'flex', gap: 3 }}>
             <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.8, '&:hover': { opacity: 1 } }}>
               <Typography variant="body2">سياسة الخصوصية</Typography>
             </Link>
             <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.8, '&:hover': { opacity: 1 } }}>
               <Typography variant="body2">شروط الاستخدام</Typography>
             </Link>
-          </Box>
+          </Box> */}
         </Box>
       </Container>
     </Box>
