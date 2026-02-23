@@ -1,5 +1,6 @@
 import { getDiseaseById, updateDisease, deleteDisease } from "@/lib/firebaseAdmin/database";
 import { diseaseSummary } from "@/types/disease";
+import { requireAuth } from "@/lib/firebaseAdmin/auth";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
@@ -15,7 +16,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         
         return Response.json(disease, { status: 200 });
     } catch (error) {
-        console.error("Error fetching disease:", error);
         return Response.json(
             { error: "Failed to fetch disease" },
             { status: 500 }
@@ -24,13 +24,18 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 }
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    // Verify authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof Response) {
+        return authResult;
+    }
+    
     try {
         const { id } = await params;
         const data: Partial<diseaseSummary> = await request.json();
         const updatedDisease = await updateDisease(id, data);
         return Response.json(updatedDisease, { status: 200 });
     } catch (error) {
-        console.error("Error updating disease:", error);
         return Response.json(
             { error: "Failed to update disease" },
             { status: 500 }
@@ -39,6 +44,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 }
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    // Verify authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof Response) {
+        return authResult;
+    }
+    
     try {
         const { id } = await params;
         await deleteDisease(id);
@@ -47,7 +58,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
             { status: 200 }
         );
     } catch (error) {
-        console.error("Error deleting disease:", error);
         return Response.json(
             { error: "Failed to delete disease" },
             { status: 500 }

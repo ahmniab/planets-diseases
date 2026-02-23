@@ -68,6 +68,7 @@ export type diseaseDocBlock =
     | { id?: string; type: 'delimiter'; data: DelimiterBlockData };
 
 export type diseaseDocData = {
+    diseaseId?: string;
     time?: number;
     version?: string;
     blocks: diseaseDocBlock[];

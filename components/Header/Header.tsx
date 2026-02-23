@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -18,6 +18,11 @@ import { useTheme } from '../../theme';
 
 const Header: React.FC = () => {
   const { mode, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <AppBar position="static" color="primary" elevation={2}>
@@ -41,11 +46,33 @@ const Header: React.FC = () => {
         {/* Theme Toggle */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box>
-          <Tooltip title={mode === 'light' ? 'التبديل للوضع المظلم' : 'التبديل للوضع الفاتح'}>
-            <IconButton onClick={toggleTheme} size="small" sx={{ color: 'white' }}>
-                {mode === 'light' ? <LightModeIcon /> : <DarkModeIcon />}
-            </IconButton>    
-          </Tooltip>
+            <Tooltip 
+              title={
+                mounted 
+                /*  this used to prevent hydration mismatch, 
+                    since we don't know the theme on the server, 
+                    we show the light mode icon, 
+                    and if it's mounted and the theme is light, 
+                    we show the dark mode icon, 
+                    and if it's mounted and the theme is dark, 
+                    we show the light mode icon 
+                    see more: https://nextjs.org/docs/messages/react-hydration-error
+                */
+                  ? (mode === 'light' ? 'التبديل للوضع المظلم' : 'التبديل للوضع الفاتح')
+                  : 'التبديل للوضع المظلم' 
+              }
+            >
+              <IconButton 
+                onClick={toggleTheme} 
+                size="small" 
+                sx={{ color: 'white' }}
+              >
+                {mounted 
+                  ? (mode === 'light' ? <LightModeIcon /> : <DarkModeIcon />)
+                  : <LightModeIcon /> 
+                }
+              </IconButton>    
+            </Tooltip>
           </Box>
           <SharePage />
         </Box>

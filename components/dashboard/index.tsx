@@ -6,7 +6,6 @@ import UserBanner from "./UserBanner";
 import { Box, Typography } from "@mui/material";
 import { Dashboard as DashboardIcon } from "@mui/icons-material";
 import { useAuth } from "@/contexts/AuthContext";
-import { ClearSession } from "@/lib/auth/client";
 import { useRouter } from "next/navigation";
 
 type DashboardProps = {
@@ -20,9 +19,7 @@ const Dashboard = ({ diseasesCount = 0, plantsCount = 0 }: DashboardProps) => {
 
     const handleSignOut = async () => {
       try {
-        signOut()
-        .then(ClearSession)
-        .then(() => router.push('/content'));
+        signOut();
       } catch (error) {
         console.error('Error signing out:', error);
       }

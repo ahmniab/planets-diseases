@@ -1,4 +1,6 @@
+'use client';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { auth } from '../firebase/config';
 
 // Create base API client
 const apiClient: AxiosInstance = axios.create({
@@ -11,8 +13,13 @@ const apiClient: AxiosInstance = axios.create({
 
 // Request interceptor
 apiClient.interceptors.request.use(
-  (config) => {
-    // Add any auth tokens or common headers here
+  async (config) => {
+    // Dynamically add auth token to each request
+    if (auth.currentUser) {
+      const token = await auth.currentUser.getIdToken();
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
     return config;
   },
   (error) => {

@@ -1,3 +1,4 @@
+'use client';
 import { Box, CircularProgress, Typography } from '@mui/material';
 
 export default function Loading() {
@@ -10,6 +11,13 @@ export default function Loading() {
         transform: 'translate(-50%, -50%)',
         textAlign: 'center',
         zIndex: 9999,
+        backgroundColor: (theme) => theme.palette.background.default,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <CircularProgress
