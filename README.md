@@ -285,10 +285,6 @@ Redis provides performance benefits through caching but is not required:
 4. Push to branch: `git push origin feature-name`
 5. Submit a pull request
 
-## License
-
-This project is private and proprietary.
-
 ## Support
 
 For issues and questions, please open an issue in the repository or contact the development team.
