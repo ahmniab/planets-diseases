@@ -11,6 +11,11 @@ declare global {
         FIREBASE_PROJECT_ID:string;
         FIREBASE_CLIENT_EMAIL:string;
         FIREBASE_PRIVATE_KEY:string;
+        REDIS_HOST:string;
+        REDIS_PORT:string;
+        REDIS_PASSWORD:string;
+        REDIS_USERNAME:string;
+        REDIS_DEFAULT_TTL_SECONDS:string;
     }
   }
 }
