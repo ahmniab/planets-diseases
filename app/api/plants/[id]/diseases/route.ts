@@ -1,0 +1,14 @@
+import { getPlantDiseases } from "@/lib/firebaseAdmin/database";
+
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
+        const { id } = await params;
+        const diseases = await getPlantDiseases(id);
+        return Response.json(diseases, { status: 200 });
+    } catch (error) {
+        return Response.json(
+            { error: "Failed to fetch diseases" },
+            { status: 500 }
+        );
+    }
+}

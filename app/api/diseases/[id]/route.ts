@@ -1,0 +1,66 @@
+import { getDiseaseById, updateDisease, deleteDisease } from "@/lib/firebaseAdmin/database";
+import { diseaseSummary } from "@/types/disease";
+import { requireAuth } from "@/lib/firebaseAdmin/auth";
+
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
+        const { id } = await params;
+        const disease = await getDiseaseById(id);
+        
+        if (!disease) {
+            return Response.json(
+                { error: "Disease not found" },
+                { status: 404 }
+            );
+        }
+        
+        return Response.json(disease, { status: 200 });
+    } catch (error) {
+        return Response.json(
+            { error: "Failed to fetch disease" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    // Verify authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof Response) {
+        return authResult;
+    }
+    
+    try {
+        const { id } = await params;
+        const data: Partial<diseaseSummary> = await request.json();
+        const updatedDisease = await updateDisease(id, data);
+        return Response.json(updatedDisease, { status: 200 });
+    } catch (error) {
+        return Response.json(
+            { error: "Failed to update disease" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    // Verify authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof Response) {
+        return authResult;
+    }
+    
+    try {
+        const { id } = await params;
+        await deleteDisease(id);
+        return Response.json(
+            { message: "Disease deleted successfully" },
+            { status: 200 }
+        );
+    } catch (error) {
+        return Response.json(
+            { error: "Failed to delete disease" },
+            { status: 500 }
+        );
+    }
+}
