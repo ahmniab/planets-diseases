@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
@@ -35,6 +35,8 @@ const LoginPage = () => {
   const { signIn, user } = useAuth();
   const router = useRouter();
   const [loginError, setLoginError] = useState<string | null>(null);
+  const emailId = useId();
+  const passwordId = useId();
 
   const {
     control,
@@ -110,6 +112,7 @@ const LoginPage = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
+                  id={emailId}
                   dir='ltr'
                   fullWidth
                   label="البريد الإلكتروني"
@@ -128,6 +131,7 @@ const LoginPage = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
+                  id={passwordId}
                   dir='ltr'
                   fullWidth
                   label="كلمة المرور"
