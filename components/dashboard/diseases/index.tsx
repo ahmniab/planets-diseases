@@ -88,11 +88,6 @@ export default function PlantDiseasesPage({ plantId }: PlantDiseasesPageProps) {
     const updateMutation = useUpdateDisease(plantId);
     const deleteMutation = useDeleteDisease(plantId);
 
-    const handleBreadcrumbClick = (path: string) => (event: React.MouseEvent) => {
-        event.preventDefault();
-        router.push(path);
-    };
-
     const handleAddClick = () => {
         setSelectedDisease(null);
         setFormDialogOpen(true);
