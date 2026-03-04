@@ -30,8 +30,8 @@ const ImageWrapper = styled(Box, {
 );
 
 const StyledImage = styled('img')({
-    width: '100%',
-    height: 'auto',
+    maxWidth: '100%',
+    height: '300px',
     borderRadius: 12,
     display: 'block',
     objectFit: 'cover',
@@ -58,7 +58,7 @@ const DiseaseImage: React.FC<{ data: SimpleImageBlockData }> = ({ data }) => {
                 <StyledImage src={data.url} alt={data.caption || ''} loading="lazy" />
             </Zoom>
             {data.caption && (
-                <Caption variant="body2">{data.caption}</Caption>
+                <Caption dangerouslySetInnerHTML={{ __html: data.caption }} variant="body2" />
             )}
         </ImageWrapper>
     );
