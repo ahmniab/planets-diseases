@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/theme';
 import QueryProvider from '@/contexts/QueryProvider';
 import Mainlayout from "@/components/shared/Mainlayout";
 import { AuthProvider } from "@/contexts/AuthContext";
+import '@/components/medium-image-zoom-customs.css'
 
 // Import all CSS files at the top level to avoid @import issues
 import 'react-medium-image-zoom/dist/styles.css';
