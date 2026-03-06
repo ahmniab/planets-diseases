@@ -12,7 +12,6 @@ import { diseaseDoc, diseaseDocBlock, diseaseDocData } from '@/types/disease';
 
 const EditorContainer = styled(Box)(({ theme }) => ({
   borderRadius: theme.spacing(2),
-  border: `1px solid ${theme.palette.divider}`,
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
   minHeight: '600px',
@@ -97,6 +96,10 @@ const EditorContainer = styled(Box)(({ theme }) => ({
       },
     },
 
+  },
+  '& .codex-editor ::selection': {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.black,
   }
 
 }));

@@ -5,9 +5,6 @@ import {
     CardMedia,
     CardContent,
     Typography,
-    CardActionArea,
-    Box,
-    Chip,
     styled,
     useTheme,
     IconButton,
@@ -15,8 +12,6 @@ import {
     Button,
 } from '@mui/material';
 import { disease } from '@/types/disease';
-import { useRouter } from 'next/navigation';
-import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -45,17 +40,6 @@ const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
         : 'rgba(0, 0, 0, 0.03)',
 }));
 
-const ImageOverlay = styled(Box)(({ theme }) => ({
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)',
-    padding: theme.spacing(1.5),
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-}));
 
 interface DiseaseCardProps {
     disease: disease;
@@ -64,12 +48,7 @@ interface DiseaseCardProps {
 }
 
 export default function DiseaseCard({ disease, onEdit, onDelete }: DiseaseCardProps) {
-    const router = useRouter();
     const theme = useTheme();
-
-    const handleClick = () => {
-        router.push(`/content/diseases/${disease.id}`);
-    };
 
     const handleEdit = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -81,66 +60,48 @@ export default function DiseaseCard({ disease, onEdit, onDelete }: DiseaseCardPr
         onDelete?.(disease);
     };
 
-    const handleEditDoc = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        router.push(`/dashboard/diseases/${disease.id}/edit`);
-    };
 
     return (
         <StyledCard elevation={2}>
-            <CardActionArea onClick={handleClick} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
-                <StyledCardMedia
-                    image={disease.mainImageUrl || '/placeholder-disease.jpg'}
-                    title={disease.title}
+            <StyledCardMedia
+                image={disease.mainImageUrl}
+                title={disease.title}
+            >
+            </StyledCardMedia>
+            <CardContent sx={{ flexGrow: 1, p: 2.5 }}>
+                <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="h3"
+                    sx={{
+                        fontWeight: 700,
+                        fontSize: '1.1rem',
+                        color: theme.palette.text.primary,
+                        mb: 1,
+                        textAlign: 'right',
+                        direction: 'rtl',
+                        lineHeight: 1.4,
+                    }}
                 >
-                    <ImageOverlay>
-                        <LocalFloristIcon sx={{ color: 'white', fontSize: 20 }} />
-                        <Chip
-                            label={disease.name}
-                            size="small"
-                            sx={{
-                                backgroundColor: theme.palette.mode === 'dark' ? 'rgba(46, 45, 45, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-                                fontWeight: 600,
-                                fontSize: '0.75rem',
-                            }}
-                        />
-                    </ImageOverlay>
-                </StyledCardMedia>
-                <CardContent sx={{ flexGrow: 1, p: 2.5 }}>
-                    <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h3"
+                    {disease.title}
+                </Typography>
+
+                {disease.docId && (
+                    <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<DescriptionIcon />}
+                        href={`/dashboard/diseases/${disease.id}/edit`}
                         sx={{
-                            fontWeight: 700,
-                            fontSize: '1.1rem',
-                            color: theme.palette.text.primary,
-                            mb: 1,
-                            textAlign: 'right',
-                            direction: 'rtl',
-                            lineHeight: 1.4,
+                            mt: 2,
+                            direction: 'ltr',
                         }}
                     >
-                        {disease.title}
-                    </Typography>
-
-                    {disease.docId && (
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<DescriptionIcon />}
-                            onClick={handleEditDoc}
-                            sx={{
-                                mt: 2,
-                                direction: 'rtl',
-                            }}
-                        >
-                            تعديل الوثيقة
-                        </Button>
-                    )}
-                </CardContent>
-            </CardActionArea>
+                        تعديل الوثيقة
+                    </Button>
+                )}
+            </CardContent>
             
             {(onEdit || onDelete) && (
                 <CardActions sx={{ justifyContent: 'space-between', p: 2 }}>

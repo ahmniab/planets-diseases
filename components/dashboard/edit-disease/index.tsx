@@ -10,17 +10,21 @@ import {
     Alert,
     Snackbar,
     styled,
-    Breadcrumbs,
-    Link,
+    IconButton,
+    Tooltip,
 } from '@mui/material';
 import Loading from '@/app/loading';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { diseaseDocBlock, diseaseDocData } from '@/types/disease';
+import { diseaseDocData } from '@/types/disease';
 import { useDiseaseDoc } from '@/hooks/useDiseaseDoc';
 import SaveIcon from '@mui/icons-material/Save';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import CustomBreadcrumbs from '@/components/shared/CustomBreadcrumbs';
 import Editor from './Editor';
+import PreviewIcon from '@mui/icons-material/Preview';
+import EditIcon from '@mui/icons-material/Edit';
+import Preview from './Preview';
+
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
@@ -37,11 +41,17 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(4),
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.spacing(2),
     textAlign: 'right',
     direction: 'rtl',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position: 'sticky',
+    top: 0,
+    zIndex: 10,
 }));
 
 interface EditDiseasePageProps {
@@ -57,6 +67,7 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
         message: '',
         severity: 'success',
     });
+    const [editMode, setEditMode] = useState<boolean>(true);
 
     useEffect(() => {
         if (diseaseDoc?.blocks) {
@@ -105,44 +116,18 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
         );
     }
 
+    const navigationLinks = [
+        { label: 'لوحة التحكم', href: '/dashboard' },
+        { label: 'النباتات', href: '/dashboard/plants' },
+        { label: `تعديل ${disease.name}`, href: `/dashboard/diseases/${diseaseId}/edit` },
+    ];
+
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 6 }}>
             <StyledPaper>
                 <HeaderContainer>
                     <Box sx={{ flex: 1 }}>
-                        <Breadcrumbs
-                            separator={<NavigateNextIcon fontSize="small" sx={{ transform: 'rotate(180deg)' }} />}
-                            sx={{ mb: 2, direction: 'rtl' }}
-                        >
-                            <Link
-                                variant="body1"
-                                href="/dashboard"
-                                sx={{
-                                    textDecoration: 'none',
-                                    color: 'text.secondary',
-                                    '&:hover': { color: 'primary.main' },
-                                }}
-                            >
-                                لوحة التحكم
-                            </Link>
-                            <Link
-                                variant="body1"
-                                href={'/dashboard/plants'}
-                                sx={{
-                                    textDecoration: 'none',
-                                    color: 'text.secondary',
-                                    cursor: 'pointer',
-                                    '&:hover': { color: 'primary.main' },
-                                }}
-                            >
-                                النباتات
-                            </Link>
-                            <Typography
-                                color="text.primary"
-                            >
-                                تعديل {disease.name}
-                            </Typography>
-                        </Breadcrumbs>
+                        <CustomBreadcrumbs items={navigationLinks} />
 
                         <Typography
                             variant="h4"
@@ -157,18 +142,35 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                         </Typography>
                     </Box>
 
-                    <Button
-                        variant="contained"
-                        startIcon={<SaveIcon />}
-                        onClick={handleSave}
-                        disabled={isSaving}
-                        dir="ltr"
-                    >
-                        {isSaving ? <CircularProgress size={24} /> : 'حفظ التغييرات'}
-                    </Button>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <IconButton
+                            onClick={() => setEditMode(!editMode)}
+                        >
+                            <Tooltip title={editMode ? "عرض المرض" : "تعديل المرض"}>
+                                {editMode ? <PreviewIcon /> : <EditIcon />}
+                            </Tooltip>
+                        </IconButton>
+
+                        <Button
+                            variant="contained"
+                            startIcon={<SaveIcon />}
+                            onClick={handleSave}
+                            disabled={isSaving}
+                            dir="ltr"
+                        >
+                            {isSaving ? <CircularProgress size={24} /> : 'حفظ التغييرات'}
+                        </Button>
+                    </Box>
                 </HeaderContainer>
 
-                {content ? <Editor diseaseDoc={content} onChange={handleDocumentChange} /> : <Loading />}
+                {content ? (
+                    editMode ? 
+                        <Editor diseaseDoc={content} onChange={handleDocumentChange} /> 
+                    : 
+                        <Preview data={{...content, id: disease.id}} />
+                ) : (
+                    <Loading />
+                )}
             </StyledPaper>
 
             <Snackbar

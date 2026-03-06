@@ -45,7 +45,7 @@ const Dashboard = ({ diseasesCount = 0, plantsCount = 0 }: DashboardProps) => {
 
         <StatsCards plantsCount={plantsCount} diseasesCount={diseasesCount}/>
         
-        <QuickActions />
+        {/* <QuickActions /> */}
       </Box>
     );
 };
