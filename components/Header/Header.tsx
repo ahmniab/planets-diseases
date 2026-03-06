@@ -39,7 +39,7 @@ const Header: React.FC = () => {
               textShadow: '0 1px 3px rgba(0,0,0,0.3)',
             }}
           >
-            دليل أمراض النباتات
+            NBG
           </Typography>
         </Box>
 

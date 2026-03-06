@@ -40,7 +40,7 @@ const Dashboard = ({ diseasesCount = 0, plantsCount = 0 }: DashboardProps) => {
           }}
         >
           <DashboardIcon fontSize="large" />
-          لوحة تحكم دليل أمراض النباتات
+          لوحة تحكم NBG
         </Typography>
 
         <StatsCards plantsCount={plantsCount} diseasesCount={diseasesCount}/>

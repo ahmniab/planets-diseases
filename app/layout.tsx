@@ -21,13 +21,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "دليل أمراض النباتات - مرجع علمي شامل",
-  description: "دليل أمراض النباتات - مرجع علمي شامل لأمراض النباتات وطرق علاجها والوقاية منها",
+  title: "NBG - مرجع علمي شامل",
+  description: "NBG - مرجع علمي شامل لأمراض النباتات وطرق علاجها والوقاية منها",
   keywords: "أمراض النباتات، دليل، زراعة، نباتات، علاج، وقاية، مرجع علمي",
   authors: [{ name: "فريق تشخيص أمراض النباتات" }],
   manifest: "/manifest.json",
   openGraph: {
-    title: "دليل أمراض النباتات",
+    title: "NBG",
     description: "مرجع علمي شامل لأمراض النباتات وطرق علاجها",
     type: "website",
     locale: "ar_SA",

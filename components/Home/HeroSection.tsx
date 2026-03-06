@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
               textAlign: 'center',
             }}
           >
-            دليل أمراض النباتات
+            NBG
           </Typography>
           <Typography
             variant="h4"
