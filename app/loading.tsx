@@ -34,7 +34,7 @@ export default function Loading() {
           fontWeight: 500,
         }}
       >
-        جاري تحميل دليل أمراض النباتات...
+        جاري تحميل NBG...
       </Typography>
     </Box>
   );

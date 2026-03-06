@@ -17,8 +17,6 @@ import {
 import { useRouter } from 'next/navigation';
 
 const stats = [
-  { number: '200+', label: 'مرض مُفهرس' },
-  { number: '50+', label: 'نوع نبات' },
   { number: '100%', label: 'محتوى علمي' },
   { number: '24/7', label: 'متاح مجاناً' },
 ];
@@ -77,7 +75,7 @@ const HeroSection: React.FC = () => {
               textAlign: 'center',
             }}
           >
-            دليل أمراض النباتات
+            NBG
           </Typography>
           <Typography
             variant="h4"

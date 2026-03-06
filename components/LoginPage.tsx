@@ -94,7 +94,7 @@ const LoginPage = () => {
               تسجيل الدخول
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              ادخل إلى لوحة تحكم دليل أمراض النباتات
+              ادخل إلى لوحة تحكم NBG
             </Typography>
           </Box>
 

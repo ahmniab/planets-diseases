@@ -8,18 +8,22 @@ import {
   BugReport,
   LocalFlorist
 } from '@mui/icons-material';
+import Link from 'next/link';
 
 const StatsCards = ({plantsCount, diseasesCount}: {plantsCount: number, diseasesCount: number}) => {
     return (
         <Grid container sx={{ justifyContent: 'center', mb: 4 }} spacing={3}>
           <Grid size={{ xs:12, sm: 6, md: 3 }}>
-            <Card sx={{ 
+            <Card
+                component={Link}
+                href="/dashboard/plants"
+                sx={{ 
                     textAlign: 'center', 
                     p: 2, 
                     backgroundColor: 'success.light',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    textDecoration: 'none',
                 }}
-                onClick={() => {}}
             >
               <CardContent>
                 <LocalFlorist sx={{ fontSize: 40, color: 'success.dark', mb: 1 }} />

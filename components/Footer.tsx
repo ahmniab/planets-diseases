@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <LocalFlorist sx={{ fontSize: '2rem', mr: 1 }} />
               <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                دليل أمراض النباتات
+                NBG
               </Typography>
             </Box>
             <Typography variant="body2" sx={{ mb: 3, opacity: 0.9, lineHeight: 1.6 }}>
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
           <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            © 2026 دليل أمراض النباتات. مرجع علمي مجاني.
+            © 2026 NBG. مرجع علمي مجاني.
           </Typography>
           {/* <Box sx={{ display: 'flex', gap: 3 }}>
             <Link href="#" color="inherit" sx={{ textDecoration: 'none', opacity: 0.8, '&:hover': { opacity: 1 } }}>
