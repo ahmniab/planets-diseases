@@ -1,5 +1,6 @@
 'use client';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import CircularLoading from '@/components/CircularLoading';
 
 export default function Loading() {
   return (
@@ -20,22 +21,7 @@ export default function Loading() {
         justifyContent: 'center',
       }}
     >
-      <CircularProgress
-        sx={{
-          color: '#228B22',
-          mb: 2,
-        }}
-        size={40}
-      />
-      <Typography
-        variant="body1"
-        sx={{
-          color: '#228B22',
-          fontWeight: 500,
-        }}
-      >
-        جاري تحميل NBG...
-      </Typography>
+      <CircularLoading />
     </Box>
   );
 }
