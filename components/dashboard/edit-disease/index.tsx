@@ -13,7 +13,7 @@ import {
     IconButton,
     Tooltip,
 } from '@mui/material';
-import Loading from '@/app/loading';
+import CircularLoading from '@/components/CircularLoading';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { diseaseDocData } from '@/types/disease';
@@ -100,7 +100,7 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
 
     if (isLoading) {
         return (
-            <Loading />
+            <CircularLoading />
         );
     }
 
@@ -169,7 +169,7 @@ export default function EditDiseasePage({ diseaseId }: EditDiseasePageProps) {
                     : 
                         <Preview data={{...content, id: disease.id}} />
                 ) : (
-                    <Loading />
+                    <CircularLoading />
                 )}
             </StyledPaper>
 
