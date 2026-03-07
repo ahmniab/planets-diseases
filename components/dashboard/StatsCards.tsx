@@ -8,15 +8,15 @@ import {
   BugReport,
   LocalFlorist
 } from '@mui/icons-material';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const StatsCards = ({plantsCount, diseasesCount}: {plantsCount: number, diseasesCount: number}) => {
-    return (
+  const router = useRouter();  
+  return (
         <Grid container sx={{ justifyContent: 'center', mb: 4 }} spacing={3}>
           <Grid size={{ xs:12, sm: 6, md: 3 }}>
             <Card
-                component={Link}
-                href="/dashboard/plants"
+                onClick={() => router.push('/dashboard/plants')}
                 sx={{ 
                     textAlign: 'center', 
                     p: 2, 
