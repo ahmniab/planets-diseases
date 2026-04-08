@@ -16,6 +16,8 @@ declare global {
         REDIS_PASSWORD:string;
         REDIS_USERNAME:string;
         REDIS_DEFAULT_TTL_SECONDS:string;
+        DISEASE_DOC_RENDERMODE:string;
+        NEXT_PUBLIC_DISEASE_DOC_RENDERMODE:string;
     }
   }
 }

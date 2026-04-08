@@ -26,7 +26,9 @@ const Diseases = async ({ params, searchParams }: {
         pageCount = Math.ceil(await getPlantDiseasesCount(plantId, query) / 10);
     } catch (error) {
         return (
-            <Link href="/not-found" />
+            <Box sx={{ minHeight: '300px' }}>
+                <NoContent />
+            </Box>
         );
     }
 
