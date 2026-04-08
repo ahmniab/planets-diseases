@@ -40,7 +40,7 @@ const PlantCard: FC<PlantProps> = ({ Plant }) => {
             color="primary" 
             href={`/content/plants/${Plant.id}/diseases`}
           >
-            عرض أمراض النبات
+            عرض
           </Button>
         </Box>
       </CardContent>
