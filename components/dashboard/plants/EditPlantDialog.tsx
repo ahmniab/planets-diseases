@@ -22,8 +22,9 @@ const EditPlantDialog = ({
   title,
 }: EditPlantDialogProps) => {
   const handleSubmit = async (data: plantData) => {
+    const plantIdForSave = plant?.id ?? '';
     console.log(onSave);
-    await onSave('', data);
+    await onSave(plantIdForSave, data);
   };
 
   return (
