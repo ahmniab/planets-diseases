@@ -11,6 +11,8 @@ import {
 import {
   LocalFlorist,
 } from '@mui/icons-material';
+import Image from 'next/image';
+import logo from '@/public/logo.png';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SharePage from './SharePage';
@@ -29,7 +31,7 @@ const Header: React.FC = () => {
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Logo and Title */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <LocalFlorist sx={{ fontSize: '2rem', color: 'white' }} />
+          <Image src={logo} alt="NBG" style={{ height: '40px', width: 'auto' }} />
           <Typography
             variant="h5"
             component="h1"
