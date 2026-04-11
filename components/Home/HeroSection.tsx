@@ -1,5 +1,4 @@
 'use client';
-import React, { use } from 'react';
 import {
   Box,
   Container,
@@ -13,10 +12,12 @@ import {
 import {
   Search,
 } from '@mui/icons-material';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 import { useRouter } from 'next/navigation';
 
 const stats = [
+  { number: '24/7', label: 'تشخيص بالذكاء الاصطناعي' },
   { number: '100%', label: 'محتوى علمي' },
   { number: '24/7', label: 'متاح مجاناً' },
 ];
@@ -91,6 +92,7 @@ const HeroSection: React.FC = () => {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
+              dir="ltr"
               variant="contained"
               size="large"
               startIcon={<Search />}
@@ -104,6 +106,22 @@ const HeroSection: React.FC = () => {
               href='/content/plants'
             >
               &nbsp;تصفح الدليل
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              dir="ltr"
+              startIcon={<CameraAltIcon />}
+              sx={{
+                py: 1.5,
+                px: 4,
+                fontSize: '1.1rem',
+                borderRadius: '25px',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+              }}
+              href='https://tomatodoc-dbpn4qhu.manus.space'
+            >
+              &nbsp;تشخيص بالصورة
             </Button>
           </Box>
         </Box>
