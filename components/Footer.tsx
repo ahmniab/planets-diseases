@@ -9,16 +9,31 @@ import {
   Divider,
   useTheme,
   alpha,
+  styled,
 } from '@mui/material';
 import {
   Facebook,
-  Twitter,
-  Instagram,
-  LinkedIn,
+  WhatsApp,
   Email,
   LocalFlorist,
   Science,
+  PhoneEnabled,
 } from '@mui/icons-material';
+
+const SocialIconButton = styled(IconButton)({
+  color: 'white',
+  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' }
+});
+
+const SocialIconLink: React.FC<{ href: string, children: React.ReactNode }> = ({ href, children }) => {
+  return (
+    <Link href={href} target="_blank">
+      <SocialIconButton>
+        {children}
+      </SocialIconButton>
+    </Link>
+  );
+};
 
 const Footer: React.FC = () => {
   const theme = useTheme();
@@ -57,18 +72,15 @@ const Footer: React.FC = () => {
               مرجع علمي شامل يحتوي على معلومات تفصيلية عن أمراض النباتات المختلفة وطرق علاجها والوقاية منها.
             </Typography>
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <IconButton sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}>
-                <Facebook />
-              </IconButton>
-              <IconButton sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}>
-                <Twitter />
-              </IconButton>
-              <IconButton sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}>
-                <Instagram />
-              </IconButton>
-              <IconButton sx={{ color: 'white', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}>
-                <LinkedIn />
-              </IconButton>
+              <SocialIconLink href="https://www.facebook.com/share/1ECue1sa8H">
+                  <Facebook />
+              </SocialIconLink>
+              <SocialIconLink href="https://wa.me/+201147926205">
+                <WhatsApp />
+              </SocialIconLink>
+              <SocialIconLink href="tel:+201147926205">
+                <PhoneEnabled />
+              </SocialIconLink>
             </Box>
           </Box>
 
@@ -96,7 +108,9 @@ const Footer: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Email sx={{ fontSize: '1.2rem' }} />
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  info@plants-diseases-guide.com
+                  <Link href="mailto:mahmoudbesher0114792@gmail.com" color="inherit" sx={{ textDecoration: 'none', opacity: 0.9, '&:hover': { opacity: 1 } }}>
+                    mahmoudbesher0114792@gmail.com
+                  </Link>
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
